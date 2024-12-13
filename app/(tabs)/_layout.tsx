@@ -24,13 +24,13 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: useClientOnlyValue(false, false),
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Flag Guesser',
+          tabBarIcon: ({ color }) => <TabBarIcon name="flag" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -48,12 +48,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="countryGuesser"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Country Guesser',
+          tabBarIcon: ({ color }) => <TabBarIcon name="globe" color={color} />,
         }}
       />
+
+      
     </Tabs>
   );
 }
