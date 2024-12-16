@@ -9,8 +9,6 @@ export function shuffle(array: any[]): void {
 }
 
 export function getRandomCountryGuesses(countryData: Country[], countryIndex: number) {
-  console.log('country data in randomcountry function: ', countryData);
-
   let countriesToBeGuessed = [countryData[countryIndex]];  // Start with the current country index
 
   // Remove the current index from the pool of available indices

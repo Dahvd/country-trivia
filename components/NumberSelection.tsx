@@ -1,16 +1,17 @@
 import Slider from "@react-native-community/slider";
 import { Text, useThemeColor, View } from "./Themed";
-import { Pressable, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { CustomPressable } from "./CustomPressable";
 
 type NumberSelectionProps = {
   maxValue: number,
   numberToGuess: number,
   setNumberToGuess: (value: number) => void,
-  setReadyToGuess: (boo: boolean) => void,
+  setGameState: (str: string) => void,
 
 
 }
-export function NumberSelection ({maxValue, numberToGuess, setNumberToGuess, setReadyToGuess}: NumberSelectionProps) {
+export function NumberSelection ({maxValue, numberToGuess, setNumberToGuess, setGameState}: NumberSelectionProps) {
   const textColor = useThemeColor({}, 'text');
 
   return(
@@ -29,11 +30,11 @@ export function NumberSelection ({maxValue, numberToGuess, setNumberToGuess, set
         minimumTrackTintColor="#1E90FF" // Color of the track on the left of the thumb
         maximumTrackTintColor="#d3d3d3" // Color of the track on the right of the thumb
       />
-      <Pressable
+      <CustomPressable
         style={[styles.optionButton, { borderColor: textColor }]}
-        onPress={() => setReadyToGuess(true)}>
+        onPress={() => setGameState('guessing')}>
         <Text style={styles.optionText}>Start Guessing</Text>
-      </Pressable>
+      </CustomPressable>
     </View>
   )
 }
