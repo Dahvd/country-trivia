@@ -11,7 +11,7 @@ The beginning of many geography related trivia games starting with a flag guesse
 - Checkboxes and circle X are pushed out when the country name is too long on the display screen.
 
 ### Other ideas
-- Country guesser, guess/click on country for a given name
+- Country guesser, guess/click on country from a given name
 - Timezone guesser
 - Country top facts or info display page
 - Possible real learning opportunities, look at what people need to know for school
