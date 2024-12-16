@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { Text, useThemeColor, View } from '@/components/Themed';
 import { useEffect, useState } from 'react';
 import { useFetchRandomizedCountries } from '@/hooks/useFetchRandomizedCountries';
@@ -81,7 +81,8 @@ export default function FlagGuesser() {
     case 'guessing':
       return(
         <View style={styles.container}>
-          <View>
+          <SafeAreaView>
+            <Text style={styles.howMany}>{numberGuessing} of {numberToGuess}</Text>
             <Text style={styles.flag}>{countries[countryIndex].flag}</Text>
             <View>
               <Text style={styles.title}>Guess the country:</Text>
@@ -103,7 +104,7 @@ export default function FlagGuesser() {
                 }
               </View>
             </View>
-          </View>
+          </SafeAreaView>
         </View>
       );
     case 'displayResults': 
@@ -144,6 +145,12 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
+    alignSelf: 'center',
+  },
+  howMany: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 17,
     alignSelf: 'center',
   },
   number: {
