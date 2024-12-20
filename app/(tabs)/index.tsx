@@ -1,9 +1,8 @@
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
-import { Text, useThemeColor, View } from '@/components/Themed';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import { Text, View } from '@/components/Themed';
 import { useFetchRandomizedCountries } from '@/hooks/useFetchRandomizedCountries';
 import { NumberSelection } from '@/components/NumberSelection';
 import { DisplayResults } from '@/components/DisplayResults';
-import { CustomPressable } from '@/components/CustomPressable';
 import { useFlagGuesserLogic } from '../../hooks/useFlagGuesserLogic';
 import { GuessingFlags } from '@/components/GuessingFlags';
 

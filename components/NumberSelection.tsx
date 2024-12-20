@@ -1,71 +1,106 @@
-import Slider from "@react-native-community/slider";
 import { Text, useThemeColor, View } from "./Themed";
 import { StyleSheet } from "react-native";
 import { CustomPressable } from "./CustomPressable";
 
 type NumberSelectionProps = {
-  maxValue: number,
-  numberToGuess: number,
-  setNumberToGuess: (value: number) => void,
-  setGameState: (str: "loading" | "picking" | "guessing" | "displayResults") => void,
-}
-export function NumberSelection ({maxValue, numberToGuess, setNumberToGuess, setGameState}: NumberSelectionProps) {
-  const textColor = useThemeColor({}, 'text');
+  maxValue: number;
+  numberToGuess: number;
+  setNumberToGuess: (value: number) => void;
+  setGameState: (str: "loading" | "picking" | "guessing" | "displayResults") => void;
+};
 
-  return(
-    <View>
-      <Text style={styles.title}>How many flags would you like to guess?</Text>
-      <Text style={styles.number}>Selected Number: {numberToGuess}</Text>
-    
-      <Slider
-        style={styles.slider}
-        minimumValue={1} // Minimum value of the slider
-        maximumValue={maxValue} // Maximum value of the slider
-        step={1} // Step between values (optional)
-        value={numberToGuess} // Current value of the slider
-        onValueChange={value => setNumberToGuess(value)} // Update state when value changes
-        thumbTintColor={textColor} // Color of the thumb
-        minimumTrackTintColor="#1E90FF" // Color of the track on the left of the thumb
-        maximumTrackTintColor="#d3d3d3" // Color of the track on the right of the thumb
-      />
-      <CustomPressable
-        style={[styles.optionButton, { borderColor: textColor }]}
-        onPress={() => setGameState('guessing')}>
-        <Text style={styles.optionText}>Start Guessing</Text>
-      </CustomPressable>
+export function NumberSelection({
+  maxValue,
+  setNumberToGuess,
+  setGameState,
+}: NumberSelectionProps) {
+  const textColor = useThemeColor({}, "text");
+
+  // Preset options
+  const presets = [5, 10, 15, 20, 25];
+
+  const handlePresetSelect = (value: number) => {
+    if (value <= maxValue) {
+      setNumberToGuess(value);  // Set the selected number
+      setGameState("guessing");  // Automatically go to the guessing state
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {/* Welcome Message */}
+      <Text style={styles.bigGlobe}>🌍</Text>
+      <Text style={[styles.welcomeText, { color: textColor }]}>
+        Welcome to Country Trivia!
+      </Text>
+      <Text style={styles.flavorText}>
+        Ready to test your knowledge? Guess how many flags you can identify from around the world!
+      </Text>
+
+      {/* Instructions */}
+      <Text style={styles.instructionText}>
+        Choose the number of flags you'd like to guess, and let's get started!
+      </Text>
+
+      {/* Preset Number Selection */}
+      <View style={styles.presetsContainer}>
+        {presets.map((preset) => (
+          <CustomPressable
+            key={preset}
+            style={[styles.presetButton, { borderColor: textColor }]}
+            onPress={() => handlePresetSelect(preset)}
+          >
+            <Text style={[styles.buttonText, { color: textColor }]}>{preset}</Text>
+          </CustomPressable>
+        ))}
+      </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
   },
-  optionButton: {
-    paddingVertical: 12,
-    marginVertical: 8,
-    borderRadius: 5,
-    alignItems: 'center',
-    borderWidth: 1,
+  bigGlobe: {
+    fontSize: 200,
   },
-  optionText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
+  welcomeText: {
+    fontSize: 28,
+    fontWeight: "bold",
     marginBottom: 20,
   },
-  number: {
+  flavorText: {
     fontSize: 18,
-    marginVertical: 10,
-    color: '#333',
+    color: "#555",
+    marginBottom: 20,
+    textAlign: "center",
   },
-  slider: {
-    width: 300,
-    height: 40,
+  instructionText: {
+    fontSize: 16,
+    color: "#777",
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  presetsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginVertical: 20,
+  },
+  presetButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
   },
 });
