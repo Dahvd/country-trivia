@@ -4,7 +4,7 @@ import { Text, View } from '@/components/Themed';
 export default function CountryGuesserScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Country Guesser</Text>
+      <Text style={styles.title}>Coming soon</Text>
     </View>
   );
 }

@@ -7,9 +7,7 @@ type NumberSelectionProps = {
   maxValue: number,
   numberToGuess: number,
   setNumberToGuess: (value: number) => void,
-  setGameState: (str: string) => void,
-
-
+  setGameState: (str: "loading" | "picking" | "guessing" | "displayResults") => void,
 }
 export function NumberSelection ({maxValue, numberToGuess, setNumberToGuess, setGameState}: NumberSelectionProps) {
   const textColor = useThemeColor({}, 'text');
@@ -40,6 +38,11 @@ export function NumberSelection ({maxValue, numberToGuess, setNumberToGuess, set
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   optionButton: {
     paddingVertical: 12,
     marginVertical: 8,

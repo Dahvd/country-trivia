@@ -1,119 +1,74 @@
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { Text, useThemeColor, View } from '@/components/Themed';
-import { useEffect, useState } from 'react';
 import { useFetchRandomizedCountries } from '@/hooks/useFetchRandomizedCountries';
-import { getRandomCountryGuesses } from '@/helpers/CountryHelperFunctions';
-import { Country } from '@/types/global';
 import { NumberSelection } from '@/components/NumberSelection';
 import { DisplayResults } from '@/components/DisplayResults';
 import { CustomPressable } from '@/components/CustomPressable';
+import { useFlagGuesserLogic } from '../../hooks/useFlagGuesserLogic';
+import { GuessingFlags } from '@/components/GuessingFlags';
 
 export default function FlagGuesser() {
-  const {countries, loading, error} = useFetchRandomizedCountries();
-  const [countryIndex, setCountryIndex] = useState<number>(0);
-  
-  const [numberToGuess, setNumberToGuess] = useState<number>(1);
-  const [numberGuessing, setNumberGuessing] = useState<number>(1);
-  const [randomCountries, setRandomCountries] = useState<Country[]>([]);
-  const [allGuesses, setAllGuesses] = useState<any>([]);
-  const [gameState, setGameState] = useState('picking');
-  const textColor = useThemeColor({}, 'text');
+  const { countries, loading, error } = useFetchRandomizedCountries();
 
-  const handleOptionSelect = (selected: Country) => {
-    if (selected.name.common === countries[countryIndex].name.common) {
-        setAllGuesses(
-          [...allGuesses, 
-          {
-            correct: true,
-            guess: selected, 
-            correctCountry: countries[countryIndex], 
-          }
-        ])
-    } else {
-      setAllGuesses(
-        [...allGuesses, 
-        {
-          correct: false, 
-          guess: selected, 
-          correctCountry: countries[countryIndex],
-        }
-      ])
+  const {
+    gameState,
+    countryIndex,
+    numberGuessing,
+    randomCountries,
+    numberToGuess,
+    allGuesses,
+    setGameState,
+    setNumberToGuess,
+    handleOptionSelect,
+  } = useFlagGuesserLogic(countries);
 
-    }
-    let newCountryIndex = countryIndex + 1;
-    setCountryIndex(newCountryIndex);
-    if (numberGuessing === numberToGuess) {
-      setGameState('displayResults');
-    }
-    setNumberGuessing(numberGuessing => numberGuessing + 1);
+  const guessingProps = {
+    countries,
+    numberGuessing,
+    numberToGuess,
+    countryIndex,
+    randomCountries,
+    handleOptionSelect,
   };
 
-  useEffect(() => {
-    if (gameState === 'guessing') {
-      let temp = getRandomCountryGuesses(countries, countryIndex);
-      setRandomCountries(temp);
-    }
-    if (gameState === 'picking') {
-      setAllGuesses([]);
-      setNumberGuessing(1);
-    }
-  }, [gameState, countryIndex]);
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   switch (gameState) {
-    case 'loading':
-      return(
-        <View style={styles.container}>
-          <Text>Loading ...</Text>
-          <ActivityIndicator size="large" />
-      </View>
-      )
     case 'picking':
       return (
         <View style={styles.container}>
-          <NumberSelection 
-            maxValue={countries.length} 
-            numberToGuess={numberToGuess} 
-            setNumberToGuess={setNumberToGuess} 
-            setGameState={setGameState} />
+          <NumberSelection
+            maxValue={countries.length}
+            numberToGuess={numberToGuess}
+            setNumberToGuess={setNumberToGuess}
+            setGameState={setGameState}
+          />
         </View>
       );
 
     case 'guessing':
-      return(
+      return (
         <View style={styles.container}>
-          <SafeAreaView>
-            <Text style={styles.howMany}>{numberGuessing} of {numberToGuess}</Text>
-            <Text style={styles.flag}>{countries[countryIndex].flag}</Text>
-            <View>
-              <Text style={styles.title}>Guess the country:</Text>
-              <View style={styles.optionsContainer}>
-                {randomCountries.length > 0 ? (
-                  <FlatList 
-                    data={randomCountries} 
-                    renderItem={({item}) => (
-                      <CustomPressable
-                        key={item.name.common}
-                        style={[styles.optionButton, { borderColor: textColor }]}
-                        onPress={() => handleOptionSelect(item)}>
-                        <Text style={styles.optionText}>{item.name.common}</Text>
-                      </CustomPressable>
-                    )}
-                  />)
-                  : 
-                  (<Text>No options available</Text>)
-                }
-              </View>
-            </View>
-          </SafeAreaView>
+          <GuessingFlags {...guessingProps} />
         </View>
       );
-    case 'displayResults': 
+
+    case 'displayResults':
       return (
         <View style={styles.container}>
           <DisplayResults listOfGuesses={allGuesses} setGameState={setGameState} />
         </View>
       );
 
+    default:
+      return null;
   }
 }
 
@@ -152,14 +107,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 17,
     alignSelf: 'center',
-  },
-  number: {
-    fontSize: 18,
-    marginVertical: 10,
-    color: '#333',
-  },
-  slider: {
-    width: 300,
-    height: 40,
   },
 });

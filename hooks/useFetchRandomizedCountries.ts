@@ -1,8 +1,9 @@
 import { shuffle } from '@/helpers/CountryHelperFunctions';
 import { useState, useEffect } from 'react';
+import { Country } from '@/types/global';
 
 export const useFetchRandomizedCountries = () => {
-  const [countries, setCountries] = useState<any[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

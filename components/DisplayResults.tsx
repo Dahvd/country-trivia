@@ -7,7 +7,7 @@ import { CustomPressable } from './CustomPressable';
 
 type DisplayResultsProps = {
   listOfGuesses: any[];
-  setGameState: (str: string) => void,
+  setGameState: (str: "loading" | "picking" | "guessing" | "displayResults") => void,
 };
 
 export function DisplayResults({ listOfGuesses, setGameState }: DisplayResultsProps) {
