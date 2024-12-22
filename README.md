@@ -2,9 +2,9 @@
 The beginning of many geography related trivia games starting with a flag guesser.
 
 <p float="left">
-  <img src="/assets/images/landing.png" alt="Home Screen" title="Home Screen" style="width: 100px;"/>
-  <img src="/assets/images/guessing.png" alt="Guessing Screen" title="Guessing Screen" style="width: 100px;"/>
-  <img src="/assets/images/results.png" alt="Results Screen" title="Results Screen" style="width: 100px;"/>
+  <img src="/assets/images/landing.png" alt="Home Screen" title="Home Screen" style="width: 170px;"/>
+  <img src="/assets/images/guessing.png" alt="Guessing Screen" title="Guessing Screen" style="width: 170px;"/>
+  <img src="/assets/images/results.png" alt="Results Screen" title="Results Screen" style="width: 170px;"/>
 </p>
 
 
